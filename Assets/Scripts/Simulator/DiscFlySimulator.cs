@@ -32,6 +32,9 @@ public class DiscFlySimulator : MonoBehaviour
     public double RHO = 1.225f;
     public float diameter = 0.21f;
 
+
+    private bool isThrowing = false;
+
     private void Tourque()
     {
         roll = (CRR * _rb.angularVelocity.y + CRP * _rb.angularVelocity.x) * 1 / 2 * RHO * Math.Pow(_rb.velocity.magnitude, 2) * AREA * diameter * 0.01f * 6 - discStats.TURN/2f;
@@ -75,20 +78,29 @@ public class DiscFlySimulator : MonoBehaviour
     {   
 
         _rb.maxAngularVelocity = 1000f;
-        _alpha = Vector3.Angle(_rb.velocity, transform.forward);
-        _rb.AddForce(transform.forward*_force*discStats.SPEED/2f, ForceMode.Impulse);
-        _rb.AddTorque(transform.up * 80f, ForceMode.Impulse);
+      
     }
 
     private void FixedUpdate()
     {
-        Gravity();
-        Lift();
-        Tourque();
-        Drag();
+        if (isThrowing)
+        {
+            Gravity();
+            Lift();
+            Tourque();
+            Drag();
+        }
+      
         
     }
 
+    public void Throw()
+    {
+        isThrowing = true;
+        _alpha = Vector3.Angle(_rb.velocity, transform.forward);
+        _rb.AddForce(transform.forward * _force * discStats.SPEED / 2f, ForceMode.Impulse);
+        _rb.AddTorque(transform.up * 80f, ForceMode.Impulse);
+    }
    
 
 
