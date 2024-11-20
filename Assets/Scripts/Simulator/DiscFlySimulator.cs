@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class DiscFlySimulator : MonoBehaviour
@@ -8,7 +7,7 @@ public class DiscFlySimulator : MonoBehaviour
     [SerializeField] Rigidbody _rb;
     [SerializeField] DiscStats discStats;
     [SerializeField]
-    [Range(1f, 10.0f)] float _force;
+    [Range(1f, 5.0f)] float _force;
 
 
     private float _alpha;
@@ -46,8 +45,7 @@ public class DiscFlySimulator : MonoBehaviour
 
 
 
-        _rb.AddTorque(Vector3.Cross(transform.up, _rb.velocity).normalized * (float)roll, ForceMode.Acceleration);
-        
+        _rb.AddTorque(Vector3.Cross(transform.up, _rb.velocity).normalized * (float)roll, ForceMode.Acceleration);       
         _rb.AddTorque(transform.up * (float)spin, ForceMode.Acceleration);
         _rb.AddTorque(_rb.velocity.normalized * (float)pitch, ForceMode.Acceleration);
     }
@@ -74,14 +72,14 @@ public class DiscFlySimulator : MonoBehaviour
 
    
  
-    void Start()
+     public void Start()
     {   
 
         _rb.maxAngularVelocity = 1000f;
-      
+        Throw();
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         if (isThrowing)
         {

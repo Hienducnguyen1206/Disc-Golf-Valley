@@ -228,7 +228,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5464546221059459977}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &5399186190649646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 4508599403800172395}
   - component: {fileID: 5464546221059459977}
   - component: {fileID: 5316088488994040634}
+  - component: {fileID: 901349139584019267}
   m_Layer: 0
   m_Name: Rock_Big_01_LOD2
   m_TagString: Untagged
@@ -347,3 +348,15 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 5262833341969869428, guid: 1e7d063b96306664db4ba1b307f2bbca, type: 3}
+--- !u!114 &901349139584019267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5217218861058319180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b92fd2762abda4abc13b24fb59832f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

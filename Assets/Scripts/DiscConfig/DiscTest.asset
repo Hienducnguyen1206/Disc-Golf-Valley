@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ad0903ff2b8f744f81c6f1e786ed625, type: 3}
   m_Name: DiscTest
   m_EditorClassIdentifier: 
-  SPEED: 12
-  GLIDE: 5
-  TURN: -5
+  SPEED: 14
+  GLIDE: 7
+  TURN: -3
   FADE: 2
   description: Test
