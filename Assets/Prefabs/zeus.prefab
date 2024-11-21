@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 2366196225510622610}
   discStats: {fileID: 11400000, guid: 82754ebf58e0efe4789c73581645976d, type: 2}
-  _force: 7.34
+  _force: 5
   AREA: 0.0568
   CL0: 0.1
   CLA: 1.4

@@ -72,14 +72,14 @@ public class DiscFlySimulator : MonoBehaviour
 
    
  
-     public void Start()
+      void Start()
     {   
 
         _rb.maxAngularVelocity = 1000f;
         Throw();
     }
 
-    public void FixedUpdate()
+     void FixedUpdate()
     {
         if (isThrowing)
         {

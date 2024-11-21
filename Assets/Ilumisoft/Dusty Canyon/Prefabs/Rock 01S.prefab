@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3935411750144710324}
   - component: {fileID: 8126599891952116165}
-  - component: {fileID: 5399186190649646}
+  - component: {fileID: 8128225966097929946}
   m_Layer: 0
   m_Name: Rock 01S
   m_TagString: Untagged
@@ -229,7 +229,7 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5464546221059459977}
   m_Enabled: 0
---- !u!114 &5399186190649646
+--- !u!114 &8128225966097929946
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4455947404632804366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8e838c7daa22974a902de39179d3882, type: 3}
+  m_Script: {fileID: 11500000, guid: 26b92fd2762abda4abc13b24fb59832f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5217218861058319180

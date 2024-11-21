@@ -25419,7 +25419,7 @@ PrefabInstance:
       value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 5399186190649646, guid: 1b770c19385e3344fb1dbe89d3504930, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -33748,6 +33748,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: zeus
       objectReference: {fileID: 0}
+    - target: {fileID: 2366196225510622610, guid: 6da2efeb53afd2e41b47c2212ef7c51a,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 5644170847937784192, guid: 6da2efeb53afd2e41b47c2212ef7c51a,
         type: 3}
       propertyPath: _force
@@ -34220,7 +34225,7 @@ PrefabInstance:
     - target: {fileID: 4131099355133873795, guid: 837cc14b0b68e564fa7de05f9d143f4a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.37
       objectReference: {fileID: 0}
     - target: {fileID: 4131099355133873795, guid: 837cc14b0b68e564fa7de05f9d143f4a,
         type: 3}

@@ -17,7 +17,7 @@ public class RockTerrain : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
 
         Rigidbody otherRb = collision.gameObject.GetComponent<Rigidbody>();
@@ -29,7 +29,7 @@ public class RockTerrain : MonoBehaviour
             }
             else
             {
-                otherRb.velocity *= 0.7f;
+                otherRb.velocity *= 0.6f;
             }
 
 
