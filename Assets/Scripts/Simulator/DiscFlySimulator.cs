@@ -10,26 +10,28 @@ public class DiscFlySimulator : MonoBehaviour
     [Range(1f, 5.0f)] float _force;
 
 
-    private float _alpha;
-    private double roll;
-    private double pitch;
-    private double spin;
+    private float _alpha;   // Góc tấn 
+    public double ALPHA0 = -4;    // Góc tấn khi lực nâng bằng 0;
 
-    public double AREA = 0.0568; 
-    public double CL0 = 0.1; 
-    public double CLA = 1.4; 
-    public double CD0 = 0.08;  
-    public double CDA = 2.72; 
-    public double ALPHA0 = -4;
+    private double roll;  // Momen Xoay quanh trục Z
+    private double pitch; // Momen Xoay quanh trục Y
+    private double spin;  // Momen Xuay quanh trục X
 
-    public double CRR = 0.014;
-    public double CRP = -0.0055;
-    public double CNR = -0.0000071;
-    public double CM0 = -0.08;
-    public double CMA = 0.43;
-    public double CMq = -0.005;
-    public double RHO = 1.225f;
-    public float diameter = 0.21f;
+    public double AREA = 0.0568;  // Diện tích đĩa
+    public double CL0 = 0.1;      // Hệ số lực nân khi góc tấn bằng 0;
+    public double CLA = 1.4;      // Hệ số lực nâng theo góc tấn 
+    public double CD0 = 0.08;     // Hệ số lực cản khi góc tấn bằng 0;
+    public double CDA = 2.72;     // Hệ số lực cản theo góc tấn ;
+
+
+    public double CRR = 0.014;    // Mô men xoay theo trục Z do roll;
+    public double CRP = -0.0055;  // Mô men xoay theo trục Z do pitch;
+    public double CNR = -0.0000071;  // Mô men xoay theo trục Y do roll;
+    public double CM0 = -0.08;      // Mô men nghiêng 
+    public double CMA = 0.43;      // Độ nhạy của mô men nghiêng theo góc tấn 
+    public double CMq = -0.005;    // Mô men nghiêng theo tốc độ góc
+    public double RHO = 1.225f;    // Mật độ không khí ở điều kiện chuẩn 
+    public float diameter = 0.21f;  // Đường kính đĩa
 
 
     private bool isThrowing = false;
@@ -76,10 +78,15 @@ public class DiscFlySimulator : MonoBehaviour
     {   
 
         _rb.maxAngularVelocity = 1000f;
-        Throw();
+      
+
+        UIManager.Instance.throwBtn.onClick.AddListener(Throw);
+        UIManager.Instance.powerSlider.onValueChanged.AddListener(value => { _force = value; });
+
+
     }
 
-     void FixedUpdate()
+    void FixedUpdate()
     {
         if (isThrowing)
         {
