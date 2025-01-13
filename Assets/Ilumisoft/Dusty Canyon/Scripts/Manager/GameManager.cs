@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Collections;
 using UnityEngine;
+using Unity.VisualScripting;
+using Photon.Pun;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -20,6 +22,10 @@ public class GameManager : Singleton<GameManager>
     private List<ItemData> itemList = new List<ItemData>();
 
     private string saveFilePath;
+
+    private bool isWinner = false;
+
+    private bool isHistorySaved = false;
 
     private void Start()
     {
@@ -99,6 +105,16 @@ public class GameManager : Singleton<GameManager>
                 else
                 {
                     Score = Mathf.RoundToInt(Mathf.Clamp01((totalDistance - currentDistance) / totalDistance) * 99);
+
+                    if (Score > 10 && !isHistorySaved)
+                    {   
+                        isHistorySaved = true;
+                        Debug.Log("Wingame");
+                        isWinner = true;
+                        SaveHistory();
+                    }
+
+
                     PlayerPrefs.SetString("Score", Score.ToString());
                     PlayerPrefs.Save();
                 }
@@ -107,6 +123,34 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+
+
+
+
+    private void Update()
+    {
+       
+    }
+
+
+
+    public void SaveHistory()
+    {
+        string roomName = PhotonNetwork.CurrentRoom?.Name ?? "UnknownRoom";
+        FirebaseAuthManager.instance.CurrentPlayerData.AddHistory( new GameHistory(roomName, Score, isWinner));
+        FirebaseAuthManager.instance.SavePlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public void Init()
     {
@@ -213,3 +257,5 @@ public class SaveData
         this.itemList = itemList;
     }
 }
+
+

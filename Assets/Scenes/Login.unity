@@ -3026,6 +3026,9 @@ MonoBehaviour:
   emailRegisterField: {fileID: 1469028076}
   passwordRegisterField: {fileID: 1762986717}
   confirmPasswordRegisterField: {fileID: 558887324}
+  CurrentPlayerData:
+    PlayerName: 
+    History: []
 --- !u!4 &1218938997
 Transform:
   m_ObjectHideFlags: 0
@@ -3058,7 +3061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1248731450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3079,7 +3082,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Notification
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}

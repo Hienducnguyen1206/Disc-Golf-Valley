@@ -418,7 +418,7 @@ public class FirebaseAuthManager : MonoBehaviour
 
 
 
-    public void SavePlayerData(string playerId, string playerName)
+    public void SavePlayerData(string playerId)
     {
         List<GameHistory> histories = new List<GameHistory>();
         PlayerData playerData = CurrentPlayerData;
