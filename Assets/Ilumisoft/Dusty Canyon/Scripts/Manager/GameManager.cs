@@ -34,13 +34,12 @@ public class GameManager : Singleton<GameManager>
         GUIManager.Ins.OpenUI<CanvasWelcome>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (GameManager.Ins.IsState(GameState.Playing) && zeusTransform != null)
         {
             Rigidbody rb = zeusTransform.GetComponent<Rigidbody>();
-
-            if (rb.velocity.magnitude > 0.01f && rb.velocity.magnitude < 0.1f) 
+            if (rb.velocity.magnitude > 0 && rb.velocity.magnitude < 0.01f)
             {
                 Vector3 basketPoint = mapObject.transform.Find("basket").position;
                 Vector3 startPoint = new Vector3(-85.099f, 36f, -282.8994f);
@@ -55,11 +54,7 @@ public class GameManager : Singleton<GameManager>
                 else {
                     Score = Mathf.RoundToInt(Mathf.Clamp01((totalDistance - currentDistance) / totalDistance) * 10);
                 }
-            }
-
-            if (rb.velocity.magnitude > 0 && rb.velocity.magnitude < 0.01f)
-            {
-
+                
                 GUIManager.Ins.OpenUI<CanvasScore>();
             }
         }
@@ -92,6 +87,6 @@ public class GameManager : Singleton<GameManager>
 
     public string GetScore()
     {
-        return Score.ToString();
+        return this.Score.ToString();
     }
 }
