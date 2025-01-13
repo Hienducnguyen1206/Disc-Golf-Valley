@@ -92,11 +92,11 @@ public class GameManager : Singleton<GameManager>
                             PlayerPrefs.SetString("Score", Score.ToString());
                             PlayerPrefs.Save();
                         }
-                        else 
-                        {
-                            PlayerPrefs.SetString("Score", Score.ToString());
-                            PlayerPrefs.Save();
-                        }
+                    }
+                    else 
+                    {
+                        PlayerPrefs.SetString("Score", Score.ToString());
+                        PlayerPrefs.Save();
                     }
                 }
 
