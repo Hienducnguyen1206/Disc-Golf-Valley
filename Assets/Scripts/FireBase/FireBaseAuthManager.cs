@@ -144,6 +144,8 @@ public class FirebaseAuthManager : MonoBehaviour
 
     private IEnumerator LoginAsync(string email, string password)
     {
+        PlayerPrefs.SetString("AccountName", email);
+        PlayerPrefs.Save();
         var loginTask = auth.SignInWithEmailAndPasswordAsync(email, password);
 
         yield return new WaitUntil(() => loginTask.IsCompleted);

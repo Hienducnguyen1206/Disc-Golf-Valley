@@ -67,9 +67,9 @@ public class LoginUIManager : MonoBehaviour
 
     public void ClearUI()
     {
-        loginPanel.SetActive(false );
-        registrationPanel.SetActive(false);
-        emailVerificationPanel.SetActive(false);
+        // loginPanel.SetActive(false );
+        // registrationPanel.SetActive(false);
+        // emailVerificationPanel.SetActive(false);
         ResetNortification();
     }
 
@@ -77,7 +77,7 @@ public class LoginUIManager : MonoBehaviour
     public void ShowVerificationResponse(bool isEmailSent, string emailId, string errorMessage)
     {
         ClearUI();
-        emailVerificationPanel.SetActive(true);
+        // emailVerificationPanel.SetActive(true);
 
         if (isEmailSent)
         {
