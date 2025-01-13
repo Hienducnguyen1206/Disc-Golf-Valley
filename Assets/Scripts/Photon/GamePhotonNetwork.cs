@@ -12,9 +12,16 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     public TextMeshProUGUI textMeshPro;
     public TMP_InputField ipRoomName;
     public Button CreateRoomBtn;
-    public Button JoinRoomBtn;
+    public TextMeshProUGUI playerName;
+    public TMP_InputField editNameField;
 
 
+    public static GamePhotonNetwork instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
 
     // Start is called before the first frame update
@@ -22,7 +29,7 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.ConnectUsingSettings();
         CreateRoomBtn.onClick.AddListener(CreateRoom);
-        JoinRoomBtn.onClick.AddListener(JoinRoom);
+       
     }
 
 
@@ -37,6 +44,15 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
         textMeshPro.text = "Connected";
+        string randomName = GenerateRandomName(10);
+
+        
+        PhotonNetwork.NickName = randomName;
+
+        playerName.text = PhotonNetwork.NickName;
+     
+      
+
     }
 
 
@@ -60,6 +76,11 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("PlayGameScene");
     }
 
+    public void JoinRoomByName(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName);
+    }
+
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         base.OnJoinRandomFailed(returnCode, message);
@@ -81,8 +102,34 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         Debug.Log(message);
     }
 
+    private string GenerateRandomName(int length)
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        System.Random random = new System.Random();
+        char[] stringChars = new char[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            stringChars[i] = chars[random.Next(chars.Length)];
+        }
+
+        return new string(stringChars);
+    }
 
 
+
+    public void Editname()
+    {
+        editNameField.text = PhotonNetwork.NickName;
+
+    }
+
+
+    public void SaveName()
+    {
+        PhotonNetwork.NickName = editNameField.text;
+        playerName.text = PhotonNetwork.NickName;
+    }
 
     // Update is called once per frame
     void Update()
