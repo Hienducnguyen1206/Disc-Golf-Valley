@@ -39,21 +39,20 @@ public class RecyclableScrollerDemo : MonoBehaviour, IRecyclableScrollRectDataSo
     private void InitData()
     {
         var itemList = GameManager.Ins.GetItemList();
-        foreach (var item in itemList)
-        {
-            Debug.Log($"Name: {item.Name}, Score: {item.Score}");
-        }
-        
+
         if (_contactList != null) _contactList.Clear();
 
         for (int i = 0; i < itemList.Count; i++)
         {
-            ContactInfo obj = new ContactInfo();
-            obj.Name = itemList[i].Name;
-            obj.Score = itemList[i].Score.ToString();
-            obj.Timestamp = itemList[i].Timestamp;
-            obj.id = "No." + i;
-            _contactList.Add(obj);
+            if (itemList[i].Name == PlayerPrefs.GetString("AccountName"))
+            {
+                ContactInfo obj = new ContactInfo();
+                obj.Name = itemList[i].Name.Substring(0, 8);
+                obj.Score = itemList[i].Score.ToString();
+                obj.Timestamp = itemList[i].Timestamp;
+                obj.id = "No." + i;
+                _contactList.Add(obj);
+            }
         }
     }
 
