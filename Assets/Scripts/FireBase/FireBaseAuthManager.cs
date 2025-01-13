@@ -29,8 +29,26 @@ public class FirebaseAuthManager : MonoBehaviour
     public TMP_InputField confirmPasswordRegisterField;
 
 
+    public static FirebaseAuthManager instance;
+
+    
+
+
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else { 
+            Destroy(gameObject);
+        }
+
+
+
+
+
         // Check that all of the necessary dependencies for firebase are present on the system
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
@@ -90,11 +108,12 @@ public class FirebaseAuthManager : MonoBehaviour
 
         if (loginTask.Exception != null)
         {
-            Debug.LogError(loginTask.Exception);
+           
+           
 
             FirebaseException firebaseException = loginTask.Exception.GetBaseException() as FirebaseException;
             AuthError authError = (AuthError)firebaseException.ErrorCode;
-
+          
 
             string failedMessage = "Login Failed! Because ";
 
@@ -102,22 +121,32 @@ public class FirebaseAuthManager : MonoBehaviour
             {
                 case AuthError.InvalidEmail:
                     failedMessage += "Email is invalid";
+                    LoginUIManager.Instance.Notification.text = "Email is invalid";
                     break;
                 case AuthError.WrongPassword:
                     failedMessage += "Wrong Password";
+                    LoginUIManager.Instance.Notification.text = "Wrong Password";
                     break;
                 case AuthError.MissingEmail:
                     failedMessage += "Email is missing";
+                    LoginUIManager.Instance.Notification.text = "Email is missing";
                     break;
                 case AuthError.MissingPassword:
                     failedMessage += "Password is missing";
+                    LoginUIManager.Instance.Notification.text = "Password is missing";
                     break;
+                case AuthError.UserNotFound:
+                    LoginUIManager.Instance.Notification.text = "User not found";
+                    break;
+                case AuthError.TooManyRequests:
+                        LoginUIManager.Instance.Notification.text = "Too many request";
+                    break ;
                 default:
                     failedMessage = "Login Failed";
                     break;
             }
 
-            Debug.Log(failedMessage);
+          
         }
         else
         {
@@ -140,23 +169,29 @@ public class FirebaseAuthManager : MonoBehaviour
 
     public void Register()
     {
-        StartCoroutine(RegisterAsync(nameRegisterField.text, emailRegisterField.text, passwordRegisterField.text, confirmPasswordRegisterField.text));
+        StartCoroutine(RegisterAsync( emailRegisterField.text, passwordRegisterField.text, confirmPasswordRegisterField.text));
     }
 
-    private IEnumerator RegisterAsync(string name, string email, string password, string confirmPassword)
+    private IEnumerator RegisterAsync( string email, string password, string confirmPassword)
     {
-        if (name == "")
+        if (email == "")
         {
-            Debug.LogError("User Name is empty");
+            
+            LoginUIManager.Instance.Notification.text = "Email is empty";
         }
-        else if (email == "")
+        else if ( password == "")
         {
-            Debug.LogError("email field is empty");
+           
+            LoginUIManager.Instance.Notification.text = "Password field is empty";
         }
-        else if (passwordRegisterField.text != confirmPasswordRegisterField.text)
+        else if (confirmPassword == "")
+        {          
+            LoginUIManager.Instance.Notification.text = "ConfirmPassword field is empty";
+        }else if(passwordRegisterField.text != confirmPasswordRegisterField.text)
         {
-            Debug.LogError("Password does not match");
+            LoginUIManager.Instance.Notification.text = "Password does not match";
         }
+       
         else
         {
             var registerTask = auth.CreateUserWithEmailAndPasswordAsync(email, password);
@@ -165,32 +200,41 @@ public class FirebaseAuthManager : MonoBehaviour
 
             if (registerTask.Exception != null)
             {
-                Debug.LogError(registerTask.Exception);
+              
 
                 FirebaseException firebaseException = registerTask.Exception.GetBaseException() as FirebaseException;
                 AuthError authError = (AuthError)firebaseException.ErrorCode;
 
-                string failedMessage = "Registration Failed! Becuase ";
+          
                 switch (authError)
                 {
                     case AuthError.InvalidEmail:
-                        failedMessage += "Email is invalid";
+                        LoginUIManager.Instance.Notification.text = "Email is invalid";
                         break;
                     case AuthError.WrongPassword:
-                        failedMessage += "Wrong Password";
+                        LoginUIManager.Instance.Notification.text = "Wrong Password";
                         break;
                     case AuthError.MissingEmail:
-                        failedMessage += "Email is missing";
+                        LoginUIManager.Instance.Notification.text = "Email is missing";
                         break;
                     case AuthError.MissingPassword:
-                        failedMessage += "Password is missing";
+                        LoginUIManager.Instance.Notification.text = "Password is missing";
                         break;
+                    case AuthError.EmailAlreadyInUse:
+                        LoginUIManager.Instance.Notification.text = "Email already in use";
+                        break;
+                    case AuthError.WeakPassword:
+                        LoginUIManager.Instance.Notification.text = "Weak password";
+                        break ;
+                    case AuthError.TooManyRequests:
+                        LoginUIManager.Instance.Notification.text = "Too many request";
+                        break ;
                     default:
-                        failedMessage = "Registration Failed";
+                        LoginUIManager.Instance.Notification.text = "Registration Failed";
                         break;
                 }
 
-                Debug.Log(failedMessage);
+              
             }
             else
             {
@@ -283,7 +327,7 @@ public class FirebaseAuthManager : MonoBehaviour
                         break;
                     case AuthError.TooManyRequests:
                         errorMessage = "Too many request";
-                        break;
+                        break;                  
                     case AuthError.InvalidRecipientEmail:
                         errorMessage = "Email invalid";
                         break;
@@ -312,6 +356,20 @@ public class FirebaseAuthManager : MonoBehaviour
             Debug.Log("User signed out successfully.");
         }
     }
+
+    bool CheckError(AggregateException exception, int firebaseExceptionCode)
+    {
+      
+        foreach (var e in exception.Flatten().InnerExceptions)
+        {
+            if (e is Firebase.FirebaseException fbEx) 
+            {
+                return fbEx.ErrorCode == firebaseExceptionCode; 
+            }
+        }
+        return false; 
+    }
+
 
 
     /*
