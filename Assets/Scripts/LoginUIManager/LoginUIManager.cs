@@ -19,6 +19,9 @@ public class LoginUIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI emailVerificationText;
 
+    [SerializeField]
+    public TextMeshProUGUI Notification;
+
     private void Awake()
     {
         CreateInstance();
@@ -33,15 +36,18 @@ public class LoginUIManager : MonoBehaviour
     }
 
     public void OpenLoginPanel()
-    {
+    {   
+
         loginPanel.SetActive(true);
         registrationPanel.SetActive(false);
+        ResetNortification();
     }
 
     public void OpenRegistrationPanel()
     {
         registrationPanel.SetActive(true);
         loginPanel.SetActive(false);
+        ResetNortification();
     }
 
 
@@ -50,6 +56,7 @@ public class LoginUIManager : MonoBehaviour
         loginPanel.SetActive(false );
         registrationPanel.SetActive(false);
         emailVerificationPanel.SetActive(false);
+        ResetNortification();
     }
 
 
@@ -60,12 +67,17 @@ public class LoginUIManager : MonoBehaviour
 
         if (isEmailSent)
         {
-            emailVerificationText.text = $"Please verify your email address \n Verification email has been sent to {emailId}";
+            emailVerificationText.text = $" Verification email has been sent to {emailId}";
         }
         else
         {
-            emailVerificationText.text = $"Couldn't sent email : {errorMessage}";
+            emailVerificationText.text = $" Please check and vertify your email";
         }
+    }
+
+    public void ResetNortification()
+    {
+        Notification.text = "";
     }
 
 
