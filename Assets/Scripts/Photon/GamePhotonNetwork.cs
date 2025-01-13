@@ -49,7 +49,7 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         
         PhotonNetwork.NickName = randomName;
 
-        playerName.text = PhotonNetwork.NickName;
+        if (playerName) playerName.text = PhotonNetwork.NickName;
      
       
 
@@ -73,6 +73,9 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("Join room successfully");
+        RecyclableScrollerDemo recyclableScroller = FindObjectOfType<RecyclableScrollerDemo>();
+        recyclableScroller?.UpdateContactList();
+
         PhotonNetwork.LoadLevel("PlayGameScene");
     }
 
@@ -87,7 +90,23 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         Debug.Log(message);
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+        Debug.Log($"Player {newPlayer.NickName} joined the room.");
 
+        RecyclableScrollerDemo recyclableScroller = FindObjectOfType<RecyclableScrollerDemo>();
+        recyclableScroller?.UpdateContactList();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        Debug.Log($"Player {otherPlayer.NickName} left the room.");
+
+        RecyclableScrollerDemo recyclableScroller = FindObjectOfType<RecyclableScrollerDemo>();
+        recyclableScroller?.UpdateContactList();
+    }
 
     public override void OnCreatedRoom()
     {
@@ -128,7 +147,13 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     public void SaveName()
     {
         PhotonNetwork.NickName = editNameField.text;
-        playerName.text = PhotonNetwork.NickName;
+        if (playerName) playerName.text = PhotonNetwork.NickName;
+    }
+
+    public void UpdatePlayerScore(int newScore)
+    {
+        var properties = new ExitGames.Client.Photon.Hashtable { { "Score", newScore } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
     // Update is called once per frame

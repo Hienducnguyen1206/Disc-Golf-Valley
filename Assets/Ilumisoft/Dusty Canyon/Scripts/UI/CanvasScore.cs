@@ -5,6 +5,7 @@ using TMPro;
 public class CanvasScore : UICanvas
 {
     public TMP_Text scoreText;
+    public TMP_Text winloseText;
 
     public void ResumeButton()
     {
@@ -20,12 +21,20 @@ public class CanvasScore : UICanvas
         Close(0);
     }
 
-    private void Awake()
+    private void Update()
     {
         if (PlayerPrefs.HasKey("Score"))
         {
             scoreText.text = PlayerPrefs.GetString("Score");
-            GameManager.Ins.AddOrUpdateItem(PlayerPrefs.GetString("AccountName"), int.Parse(scoreText.text));
+            if (int.Parse(PlayerPrefs.GetString("Score")) >= 95)
+            {
+                winloseText.text = "You Win!";
+            }
+            else if (int.Parse(PlayerPrefs.GetString("Score")) < 95)
+            {
+                winloseText.text = "You Lose!";
+            }
+            return;
         }
     }
 }
