@@ -15,5 +15,9 @@ EditorBuildSettings:
     path: Assets/Ilumisoft/Dusty Canyon/Scenes/PlayGameScene.unity
     guid: 4b759ded3592e7a479bc02684cbf95ca
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: bced1b9801ae9ea488e3835235eac097,
+      type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000,
+      guid: 29fa9a06e3727874585a88b3a24491ab, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: 8e766e641d0df4b449363585dbd826a5, type: 2}

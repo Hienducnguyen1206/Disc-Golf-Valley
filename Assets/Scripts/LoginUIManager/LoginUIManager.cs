@@ -22,6 +22,20 @@ public class LoginUIManager : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI Notification;
 
+
+    [Space]
+    [Header("Login")]
+    public TMP_InputField emailLoginField;
+    public TMP_InputField passwordLoginField;
+
+    // Registration Variables
+    [Space]
+    [Header("Registration")]
+
+    public TMP_InputField emailRegisterField;
+    public TMP_InputField passwordRegisterField;
+    public TMP_InputField confirmPasswordRegisterField;
+
     private void Awake()
     {
         CreateInstance();

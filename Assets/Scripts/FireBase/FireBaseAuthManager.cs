@@ -5,6 +5,7 @@ using Firebase;
 using Firebase.Auth;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class FirebaseAuthManager : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class FirebaseAuthManager : MonoBehaviour
     // Registration Variables
     [Space]
     [Header("Registration")]
-    public TMP_InputField nameRegisterField;
+  
     public TMP_InputField emailRegisterField;
     public TMP_InputField passwordRegisterField;
     public TMP_InputField confirmPasswordRegisterField;
@@ -41,16 +42,17 @@ public class FirebaseAuthManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else { 
-            Destroy(gameObject);
-        }
+        
+
+
+       
+    
 
 
 
 
-
-        // Check that all of the necessary dependencies for firebase are present on the system
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+    // Check that all of the necessary dependencies for firebase are present on the system
+    FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             dependencyStatus = task.Result;
 
@@ -64,6 +66,34 @@ public class FirebaseAuthManager : MonoBehaviour
             }
         });
     }
+
+
+    private void Start()
+    {
+        InitUIReference();
+    }
+
+    private void FixedUpdate()
+    {
+        InitUIReference();
+
+    }
+
+
+    public void InitUIReference()
+    {    if (emailLoginField == null) {
+            emailLoginField = LoginUIManager.Instance.emailLoginField;
+            passwordLoginField = LoginUIManager.Instance.passwordLoginField;
+
+
+            emailRegisterField = LoginUIManager.Instance.emailRegisterField;
+            passwordRegisterField = LoginUIManager.Instance.passwordRegisterField;
+            confirmPasswordRegisterField = LoginUIManager.Instance.confirmPasswordRegisterField;
+        }
+        
+    }
+
+
 
     void InitializeFirebase()
     {
@@ -161,7 +191,7 @@ public class FirebaseAuthManager : MonoBehaviour
             {
                 References.userName = user.DisplayName;
                 UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
-            }
+            }else
             {
                 SendEmailForVerification();
             }
@@ -355,7 +385,9 @@ public class FirebaseAuthManager : MonoBehaviour
         if (auth.CurrentUser != null)
         {
             auth.SignOut();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
             Debug.Log("User signed out successfully.");
+           
         }
     }
 
@@ -374,16 +406,5 @@ public class FirebaseAuthManager : MonoBehaviour
 
 
 
-    /*
-
-    private bool HasCooldownExpired()
-    {
-       
-        const double cooldownTimeInMinutes = 5;
-        var lastSignIn = user.Metadata.LastSignInTimestamp;
-        var elapsedMinutes = (DateTime.UtcNow - DateTimeOffset.FromUnixTimeMilliseconds((long)lastSignIn).UtcDateTime).TotalMinutes;
-        return elapsedMinutes > cooldownTimeInMinutes;
-    }
-    */
 }
 
