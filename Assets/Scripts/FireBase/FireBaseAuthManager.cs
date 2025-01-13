@@ -6,6 +6,10 @@ using Firebase.Auth;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
+using Firebase.Database;
+using Firebase.Extensions;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 public class FirebaseAuthManager : MonoBehaviour
 {
@@ -14,6 +18,7 @@ public class FirebaseAuthManager : MonoBehaviour
     public DependencyStatus dependencyStatus;
     public FirebaseAuth auth;
     public FirebaseUser user;
+    private DatabaseReference reference;
 
     // Login Variables
     [Space]
@@ -31,8 +36,10 @@ public class FirebaseAuthManager : MonoBehaviour
 
 
     public static FirebaseAuthManager instance;
+    public PlayerData CurrentPlayerData;
 
-    
+
+
 
 
     private void Awake()
@@ -55,6 +62,11 @@ public class FirebaseAuthManager : MonoBehaviour
     FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             dependencyStatus = task.Result;
+
+            FirebaseApp app = FirebaseApp.DefaultInstance;
+            reference = FirebaseDatabase.DefaultInstance.RootReference;
+
+
 
             if (dependencyStatus == DependencyStatus.Available)
             {
@@ -401,6 +413,62 @@ public class FirebaseAuthManager : MonoBehaviour
         }
         return false; 
     }
+
+
+
+    public void SavePlayerData(string playerId, string playerName)
+    {
+        List<GameHistory> histories = new List<GameHistory>();
+        PlayerData playerData = CurrentPlayerData;
+
+
+        string json = JsonUtility.ToJson(playerData);
+
+       
+        reference.Child("players").Child(playerId).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task => {
+            if (task.IsCompleted)
+            {
+                Debug.Log("Player data saved successfully.");
+            }
+            else
+            {
+                Debug.LogError("Failed to save player data: " + task.Exception);
+            }
+        });
+    }
+
+    public void LoadPlayerData(string playerId)
+    {
+        reference.Child("players").Child(playerId).GetValueAsync().ContinueWithOnMainThread(task => {
+            if (task.IsCompleted && task.Result.Exists)
+            {
+                string json = task.Result.GetRawJsonValue();
+
+                if (!string.IsNullOrEmpty(json))
+                {
+                    try
+                    {
+                        CurrentPlayerData = JsonUtility.FromJson<PlayerData>(json);
+                        Debug.Log("Player data loaded successfully: " + CurrentPlayerData.PlayerName);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError("Error deserializing JSON: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("No data found for playerId: " + playerId);
+                }
+            }
+            else
+            {
+                Debug.LogError("Error loading player data: " + task.Exception?.Message);
+            }
+        });
+    }
+
+
 
 
 

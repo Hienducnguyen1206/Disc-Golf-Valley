@@ -44,6 +44,8 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
         textMeshPro.text = "Connected";
+
+
         string randomName = GenerateRandomName(10);
 
         
@@ -119,9 +121,16 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
 
 
     public void Editname()
-    {
-        editNameField.text = PhotonNetwork.NickName;
+    {    
 
+          FirebaseAuthManager.instance.LoadPlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
+       
+         string playerName = FirebaseAuthManager.instance.CurrentPlayerData.PlayerName;
+         
+          editNameField.text = playerName;
+          
+        
+       
     }
 
 
@@ -129,6 +138,8 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.NickName = editNameField.text;
         playerName.text = PhotonNetwork.NickName;
+        FirebaseAuthManager.instance.SavePlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId, editNameField.text);
+        
     }
 
     // Update is called once per frame
