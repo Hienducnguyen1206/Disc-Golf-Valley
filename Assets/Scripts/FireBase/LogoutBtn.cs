@@ -13,6 +13,7 @@ public class LogoutBtn : MonoBehaviour
         firebaseManager  = FindObjectOfType<FirebaseAuthManager>();
         btn = gameObject.GetComponent<Button>();
         btn.onClick.AddListener(Logout);
+
     }
 
    
