@@ -21,5 +21,12 @@ public class CanvasWelcome : UICanvas
 
         Close(0);
     }
+
+    public void RankButton()
+    {
+        GameManager.Ins.ChangeState(GameState.Pause);
+        GUIManager.Ins.OpenUI<CanvasRank>();
+        Close(0);
+    }
 }
 
