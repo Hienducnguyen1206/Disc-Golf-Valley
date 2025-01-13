@@ -990,7 +990,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2825258052074171864}
         m_TargetAssemblyTypeName: CanvasWelcome, Assembly-CSharp
-        m_MethodName: StartButton
+        m_MethodName: RankButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
