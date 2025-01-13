@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "939153802527",
+    "firebase_url": "https://disc-golf-valley-9ea71-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "disc-golf-valley-9ea71",
+    "storage_bucket": "disc-golf-valley-9ea71.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939153802527:android:8e512cc856b41a77f25c2a",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.DiscGolfValley"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3bV7NbntvfFo4NHrORPMnWi8jl3l6T3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
