@@ -22,13 +22,10 @@ public class CanvasScore : UICanvas
 
     private void Awake()
     {
-        Debug.Log("Score: " + GameManager.Ins.GetScore());
-        scoreText.text = GameManager.Ins.GetScore();
-    }
-
-    private void Start()
-    {
-        Debug.Log("Score: " + GameManager.Ins.GetScore());
-        scoreText.text = GameManager.Ins.GetScore();
+        if (PlayerPrefs.HasKey("Score"))
+        {
+            scoreText.text = PlayerPrefs.GetString("Score");
+            GameManager.Ins.AddOrUpdateItem(PlayerPrefs.GetString("AccountName"), int.Parse(scoreText.text));
+        }
     }
 }
