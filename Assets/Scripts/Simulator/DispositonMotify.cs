@@ -28,6 +28,7 @@ public class DispositionModify : MonoBehaviour
 
     private void OnOffsetSliderChanged(float value)
     {
+        initialPosition = transform.position;
         float targetX = initialPosition.x + value;
         Vector3 targetPosition = new Vector3(targetX, initialPosition.y, initialPosition.z);
 

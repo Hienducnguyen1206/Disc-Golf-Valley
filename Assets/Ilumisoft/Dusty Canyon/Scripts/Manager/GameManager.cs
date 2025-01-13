@@ -55,7 +55,7 @@ public class GameManager : Singleton<GameManager>
                     Score = Mathf.RoundToInt(Mathf.Clamp01((totalDistance - currentDistance) / totalDistance) * 10);
                 }
                 
-                GUIManager.Ins.OpenUI<CanvasScore>();
+                // GUIManager.Ins.OpenUI<CanvasScore>();
             }
         }
     }
