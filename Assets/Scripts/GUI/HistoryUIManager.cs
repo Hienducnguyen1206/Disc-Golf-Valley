@@ -35,8 +35,8 @@ public class HistoryUIManager : MonoBehaviour
             GameObject historyEntry = Instantiate(HistoryPrefab, Vector3.zero,Quaternion.identity, HistoryContainer.transform);
 
            
-            historyEntry.transform.Find("Roomname").GetComponent<TMPro.TextMeshProUGUI>().text = $"Room: {FirebaseAuthManager.instance.CurrentPlayerData.History[i].RoomName}";
-            historyEntry.transform.Find("MaxScore").GetComponent<TMPro.TextMeshProUGUI>().text = $"Score: {FirebaseAuthManager.instance.CurrentPlayerData.History[i].Score}";
+            historyEntry.transform.Find("Roomname").GetComponent<TMPro.TextMeshProUGUI>().text =  FirebaseAuthManager.instance.CurrentPlayerData.History[i].RoomName.ToString();
+            historyEntry.transform.Find("MaxScore").GetComponent<TMPro.TextMeshProUGUI>().text =  FirebaseAuthManager.instance.CurrentPlayerData.History[i].Score.ToString();
             historyEntry.transform.Find("Result").GetComponent<TMPro.TextMeshProUGUI>().text = FirebaseAuthManager.instance.CurrentPlayerData.History[i].IsWinner ? "Winner" : "Loser";
         }
     }

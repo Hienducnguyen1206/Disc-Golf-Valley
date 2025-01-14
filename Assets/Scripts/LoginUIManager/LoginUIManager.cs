@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoginUIManager : MonoBehaviour
 {
@@ -36,9 +37,13 @@ public class LoginUIManager : MonoBehaviour
     public TMP_InputField passwordRegisterField;
     public TMP_InputField confirmPasswordRegisterField;
 
+
+    public Button QuitGameBtn;
+
     private void Awake()
     {
         CreateInstance();
+        QuitGameBtn.onClick.AddListener(QuitGame);
     }
 
     private void CreateInstance()
@@ -93,6 +98,20 @@ public class LoginUIManager : MonoBehaviour
     {
         Notification.text = "";
     }
+
+
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            // Thoát game khi build
+            Application.Quit();
+#endif
+    }
+
 
 
 
