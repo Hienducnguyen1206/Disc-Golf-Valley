@@ -182,6 +182,52 @@ public class GameManager : Singleton<GameManager>
     {
         this.AccountName = name;
     }
+    /*
+    public void AddItem(ItemData item)
+    {
+        item.Timestamp = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        itemList.Insert(0, item);
+        SaveData();
+    }
+
+    public List<ItemData> GetItemList()
+    {
+        return itemList;
+    }
+
+    public void SaveData()
+    {
+        string json = JsonUtility.ToJson(new SaveData(itemList), true);
+        File.WriteAllText(saveFilePath, json);
+    }
+
+    public void LoadData()
+    {
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath);
+            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
+            itemList = saveData.itemList ?? new List<ItemData>();
+        }
+    }
+
+    public ItemData GetItemByName(string name)
+    {
+        return itemList.Find(item => item.Name == name);
+    }
+
+    public void AddOrUpdateItem(string name, int score)
+    {
+        AddItem(new ItemData(name, score));
+        SaveData();
+    }
+
+   
+    public List<ItemData> GetItemsByName(string name)
+    {
+        return itemList.FindAll(item => item.Name == name);
+    }
+     */
 }
 
 [System.Serializable]
