@@ -37,23 +37,7 @@ public class AudioController : MonoBehaviour
     private void Start()
     {
    
-        MusicSource = transform.GetChild(0).GetComponent<AudioSource>();
-        SFXSource = transform.GetChild(1).GetComponent<AudioSource>();
-
-        MusicSlider.onValueChanged.AddListener(SetMusicVolume);
-        SFXSlider.onValueChanged.AddListener(SetSFXVolume);
-
-        MusicToggle.onValueChanged.AddListener(ToggleMusic);
-       
-        
-        //SFXToggle.onValueChanged.AddListener(ToggleSFX);
-
-     
-        MusicToggle.isOn = MusicSource.isPlaying;
-        SFXToggle.isOn = SFXSource.isPlaying;
-
-        MusicSlider.value = MusicSource.volume;
-        SFXSlider.value = SFXSource.volume;
+       InitAudioRef();
     }
 
 
@@ -96,4 +80,48 @@ public class AudioController : MonoBehaviour
             SFXSource.Pause();
         }
     }*/
+
+
+
+
+    private void Update()
+    {
+        if(SFXSlider == null)
+        {
+            InitAudioRef();
+           
+        }
+    }
+
+
+    public void InitAudioRef()
+    {  
+        SFXSlider = LobbyUIManager.instance.sfxSlider;
+        MusicSlider = LobbyUIManager.instance.musicSlider;
+        MusicToggle = LobbyUIManager.instance.musicToggle;
+        SFXToggle = LobbyUIManager.instance.sfxToggle;
+
+
+
+        MusicSource = transform.GetChild(0).GetComponent<AudioSource>();
+        SFXSource = transform.GetChild(1).GetComponent<AudioSource>();
+
+        MusicSlider.onValueChanged.AddListener(SetMusicVolume);
+        SFXSlider.onValueChanged.AddListener(SetSFXVolume);
+
+        MusicToggle.onValueChanged.AddListener(ToggleMusic);
+
+
+        //SFXToggle.onValueChanged.AddListener(ToggleSFX);
+
+
+        MusicToggle.isOn = MusicSource.isPlaying;
+        SFXToggle.isOn = SFXSource.isPlaying;
+
+        MusicSlider.value = MusicSource.volume;
+        SFXSlider.value = SFXSource.volume;
+
+
+
+    }
 }

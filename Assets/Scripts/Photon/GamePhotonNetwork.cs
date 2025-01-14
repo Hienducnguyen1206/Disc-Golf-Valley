@@ -29,7 +29,7 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.ConnectUsingSettings();
         CreateRoomBtn.onClick.AddListener(CreateRoom);
-       
+        FirebaseAuthManager.instance.LoadPlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
     }
 
 
@@ -38,7 +38,8 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
         PhotonNetwork.JoinLobby();
         textMeshPro.text = "Loading...";
-        InitPlayerName();
+
+      
     }
 
     public override void OnJoinedLobby()
@@ -118,38 +119,22 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         Debug.Log(message);
     }
 
-    private string GenerateRandomName(int length)
-    {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        System.Random random = new System.Random();
-        char[] stringChars = new char[length];
-
-        for (int i = 0; i < length; i++)
-        {
-            stringChars[i] = chars[random.Next(chars.Length)];
-        }
-
-        return new string(stringChars);
-    }
+ 
 
 
 
     public void Editname()
     {    
 
-          FirebaseAuthManager.instance.LoadPlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
-       
-         string playerName = FirebaseAuthManager.instance.CurrentPlayerData.PlayerName;
          
-          editNameField.text = playerName;
-          
-        
+          editNameField.text = "";
+                 
        
     }
 
 
     public void SaveName()
-    {
+    {  
         PhotonNetwork.NickName = editNameField.text;
         FirebaseAuthManager.instance.CurrentPlayerData.PlayerName = editNameField.text;
         FirebaseAuthManager.instance.SavePlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
@@ -174,5 +159,11 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     {
         FirebaseAuthManager.instance.LoadPlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
         playerName.text = FirebaseAuthManager.instance.CurrentPlayerData.PlayerName;
+    }
+
+    public void InitPlayerAvatar()
+    {
+        FirebaseAuthManager.instance.LoadPlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
+        Avatar.instance.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Avatar/" + FirebaseAuthManager.instance.CurrentPlayerData.AvatarCode);
     }
 }

@@ -49,17 +49,16 @@ public class FirebaseAuthManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        
+
 
 
        
-    
 
 
 
 
-    // Check that all of the necessary dependencies for firebase are present on the system
-    FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        // Check that all of the necessary dependencies for firebase are present on the system
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             dependencyStatus = task.Result;
 
@@ -77,12 +76,19 @@ public class FirebaseAuthManager : MonoBehaviour
                 Debug.LogError("Could not resolve all firebase dependencies: " + dependencyStatus);
             }
         });
+
+
     }
 
 
     private void Start()
     {
         InitUIReference();
+
+       
+
+
+
     }
 
     private void FixedUpdate()
@@ -396,10 +402,17 @@ public class FirebaseAuthManager : MonoBehaviour
     {
         if (auth.CurrentUser != null)
         {
-            auth.SignOut();
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Login");
-            Debug.Log("User signed out successfully.");
            
+            auth.SignOut();
+
+          
+            SceneManager.LoadScene("Login");
+
+            Debug.Log("User signed out successfully.");
+        }
+        else
+        {
+            Debug.LogWarning("No user is currently signed in.");
         }
     }
 

@@ -3284,6 +3284,7 @@ MonoBehaviour:
   confirmPasswordRegisterField: {fileID: 558887324}
   CurrentPlayerData:
     PlayerName: 
+    AvatarCode: F1
     History: []
 --- !u!4 &1218938997
 Transform:

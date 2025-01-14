@@ -28,7 +28,7 @@ public class PlayerData
     {
         PlayerName = playerName;
         History = histories;
-        AvatarCode = "F1";
+        AvatarCode = "1";
     }
 
    

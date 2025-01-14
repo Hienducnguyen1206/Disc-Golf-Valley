@@ -21,6 +21,8 @@ public class AvatarChoiceBtn : MonoBehaviour
         {
 
             Avatar.instance.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Avatar/" + avatarImage.sprite.name);
+            FirebaseAuthManager.instance.CurrentPlayerData.AvatarCode = avatarImage.sprite.name;
+            FirebaseAuthManager.instance.SavePlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
         }
         else
         {
