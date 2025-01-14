@@ -19,8 +19,6 @@ public class GameManager : Singleton<GameManager>
 
     private Transform zeusTransform;
 
-    private List<ItemData> itemList = new List<ItemData>();
-
     private string saveFilePath;
 
     private bool isWinner = false;
@@ -29,8 +27,6 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        StartCoroutine(AutoSortAndSave());
-
         if (PlayerPrefs.HasKey("AccountName"))
         {
             string savedAccountName = PlayerPrefs.GetString("AccountName");
@@ -47,33 +43,12 @@ public class GameManager : Singleton<GameManager>
         Transform gameplayTransform = mapObject.transform.Find("GUI");
         gameplayTransform.gameObject.SetActive(false);
         Invoke("ShowWelcomeUI", 1.5f);
-
-        // PlayerPrefs.DeleteAll();
-        // File.Delete(saveFilePath);
-    }
-
-    private IEnumerator AutoSortAndSave()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(5f);
-
-            itemList.Sort((x, y) => y.Score.CompareTo(x.Score));
-
-            SaveData();
-        }
     }
 
     private void ShowWelcomeUI()
     {
         ChangeState(GameState.Start);
         GUIManager.Ins.OpenUI<CanvasWelcome>();
-    }
-
-    private void Awake()
-    {
-        saveFilePath = Path.Combine(Application.persistentDataPath, "game_data.json");
-        LoadData();
     }
 
     private void LateUpdate()
@@ -99,14 +74,25 @@ public class GameManager : Singleton<GameManager>
                 if (currentDistance > totalDistance)
                 {
                     Score = 0;
-                    PlayerPrefs.SetString("Score", Score.ToString());
-                    PlayerPrefs.Save();
+                    if (PlayerPrefs.HasKey("Score")) 
+                    {
+                        if (int.Parse(PlayerPrefs.GetString("Score")) < Score)
+                        {
+                            PlayerPrefs.SetString("Score", Score.ToString());
+                            PlayerPrefs.Save();
+                        }
+                    }
+                    else 
+                    {
+                        PlayerPrefs.SetString("Score", Score.ToString());
+                        PlayerPrefs.Save();
+                    }
                 }
                 else
                 {
                     Score = Mathf.RoundToInt(Mathf.Clamp01((totalDistance - currentDistance) / totalDistance) * 99);
 
-                    if (Score > 10 && !isHistorySaved)
+                    if (Score >= 95 && !isHistorySaved)
                     {   
                         isHistorySaved = true;
                         Debug.Log("Wingame");
@@ -114,9 +100,19 @@ public class GameManager : Singleton<GameManager>
                         SaveHistory();
                     }
 
-
-                    PlayerPrefs.SetString("Score", Score.ToString());
-                    PlayerPrefs.Save();
+                    if (PlayerPrefs.HasKey("Score")) 
+                    {
+                        if (int.Parse(PlayerPrefs.GetString("Score")) < Score)
+                        {
+                            PlayerPrefs.SetString("Score", Score.ToString());
+                            PlayerPrefs.Save();
+                        }
+                    }
+                    else 
+                    {
+                        PlayerPrefs.SetString("Score", Score.ToString());
+                        PlayerPrefs.Save();
+                    }
                 }
 
                 GUIManager.Ins.OpenUI<CanvasScore>();
@@ -257,5 +253,3 @@ public class SaveData
         this.itemList = itemList;
     }
 }
-
-
