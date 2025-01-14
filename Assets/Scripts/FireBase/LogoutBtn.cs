@@ -23,6 +23,7 @@ public class LogoutBtn : MonoBehaviour
     {
         if (firebaseManager != null)
         {
+            PlayerPrefs.DeleteAll();
             firebaseManager.SignOut(); 
         }
     }
