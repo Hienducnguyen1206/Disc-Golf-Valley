@@ -41,6 +41,8 @@ public struct GameHistory
     public int Score;
     public bool IsWinner;
 
+
+   
    
     public GameHistory(string roomName, int score, bool isWinner)
     {

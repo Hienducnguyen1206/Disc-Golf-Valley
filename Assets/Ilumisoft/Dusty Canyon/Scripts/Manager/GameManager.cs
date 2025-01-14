@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Collections;
 using UnityEngine;
+using Unity.VisualScripting;
+using Photon.Pun;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -18,6 +20,10 @@ public class GameManager : Singleton<GameManager>
     private Transform zeusTransform;
 
     private string saveFilePath;
+
+    private bool isWinner = false;
+
+    private bool isHistorySaved = false;
 
     private void Start()
     {
@@ -85,6 +91,15 @@ public class GameManager : Singleton<GameManager>
                 else
                 {
                     Score = Mathf.RoundToInt(Mathf.Clamp01((totalDistance - currentDistance) / totalDistance) * 99);
+
+                    if (Score >= 95 && !isHistorySaved)
+                    {   
+                        isHistorySaved = true;
+                        Debug.Log("Wingame");
+                        isWinner = true;
+                        SaveHistory();
+                    }
+
                     if (PlayerPrefs.HasKey("Score")) 
                     {
                         if (int.Parse(PlayerPrefs.GetString("Score")) < Score)
@@ -104,6 +119,34 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+
+
+
+
+    private void Update()
+    {
+       
+    }
+
+
+
+    public void SaveHistory()
+    {
+        string roomName = PhotonNetwork.CurrentRoom?.Name ?? "UnknownRoom";
+        FirebaseAuthManager.instance.CurrentPlayerData.AddHistory( new GameHistory(roomName, Score, isWinner));
+        FirebaseAuthManager.instance.SavePlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public void Init()
     {
@@ -138,5 +181,75 @@ public class GameManager : Singleton<GameManager>
     public void UpdateAccountName(string name)
     {
         this.AccountName = name;
+    }
+
+    public void AddItem(ItemData item)
+    {
+        item.Timestamp = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        itemList.Insert(0, item);
+        SaveData();
+    }
+
+    public List<ItemData> GetItemList()
+    {
+        return itemList;
+    }
+
+    public void SaveData()
+    {
+        string json = JsonUtility.ToJson(new SaveData(itemList), true);
+        File.WriteAllText(saveFilePath, json);
+    }
+
+    public void LoadData()
+    {
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath);
+            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
+            itemList = saveData.itemList ?? new List<ItemData>();
+        }
+    }
+
+    public ItemData GetItemByName(string name)
+    {
+        return itemList.Find(item => item.Name == name);
+    }
+
+    public void AddOrUpdateItem(string name, int score)
+    {
+        AddItem(new ItemData(name, score));
+        SaveData();
+    }
+
+    public List<ItemData> GetItemsByName(string name)
+    {
+        return itemList.FindAll(item => item.Name == name);
+    }
+}
+
+[System.Serializable]
+public class ItemData
+{
+    public string Name;
+    public int Score;
+    public string Timestamp;
+
+    public ItemData(string name, int score)
+    {
+        Name = name;
+        Score = score;
+        Timestamp = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+    }
+}
+
+[System.Serializable]
+public class SaveData
+{
+    public List<ItemData> itemList;
+
+    public SaveData(List<ItemData> itemList)
+    {
+        this.itemList = itemList;
     }
 }
