@@ -182,7 +182,6 @@ public class GameManager : Singleton<GameManager>
     {
         this.AccountName = name;
     }
-
     /*
     public void AddItem(ItemData item)
     {
