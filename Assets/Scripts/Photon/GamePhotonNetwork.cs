@@ -38,6 +38,7 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
         PhotonNetwork.JoinLobby();
         textMeshPro.text = "Loading...";
+        InitPlayerName();
     }
 
     public override void OnJoinedLobby()
@@ -45,15 +46,9 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
         textMeshPro.text = "Connected";
 
-
-        string randomName = GenerateRandomName(10);
-
-        
-        PhotonNetwork.NickName = randomName;
-
+        InitPlayerName();    
         if (playerName) playerName.text = PhotonNetwork.NickName;
-     
-      
+   
 
     }
 
@@ -156,8 +151,8 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     public void SaveName()
     {
         PhotonNetwork.NickName = editNameField.text;
-        // playerName.text = PhotonNetwork.NickName;
-        FirebaseAuthManager.instance.SavePlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId, editNameField.text);
+        FirebaseAuthManager.instance.CurrentPlayerData.PlayerName = editNameField.text;
+        FirebaseAuthManager.instance.SavePlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
         
         if (playerName) playerName.text = PhotonNetwork.NickName;
     }
@@ -172,5 +167,12 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     void Update()
     {
         
+    }
+
+
+    public void InitPlayerName()
+    {
+        FirebaseAuthManager.instance.LoadPlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
+        playerName.text = FirebaseAuthManager.instance.CurrentPlayerData.PlayerName;
     }
 }
