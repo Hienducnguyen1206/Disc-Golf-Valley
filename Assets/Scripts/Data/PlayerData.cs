@@ -4,18 +4,21 @@
 public class PlayerData
 {
     public string PlayerName;
+    public string AvatarCode;
     public List<GameHistory> History;
 
    
     public PlayerData()
     {    
         History = new List<GameHistory>();
+        AvatarCode = "F1";
     }
 
     public PlayerData(string playerName)
     {   
         PlayerName = playerName;
         History = new List<GameHistory>();
+        AvatarCode = "F1";
     }
 
 
@@ -25,12 +28,18 @@ public class PlayerData
     {
         PlayerName = playerName;
         History = histories;
+        AvatarCode = "F1";
     }
 
    
     public void AddHistory(GameHistory history)
     {
         History.Add(history);
+    }
+
+    public void ChangeAvatar(string avatarCode)
+    {
+        AvatarCode = avatarCode;
     }
 }
 

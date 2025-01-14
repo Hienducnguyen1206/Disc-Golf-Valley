@@ -183,6 +183,7 @@ public class GameManager : Singleton<GameManager>
         this.AccountName = name;
     }
 
+    /*
     public void AddItem(ItemData item)
     {
         item.Timestamp = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -222,10 +223,12 @@ public class GameManager : Singleton<GameManager>
         SaveData();
     }
 
+   
     public List<ItemData> GetItemsByName(string name)
     {
         return itemList.FindAll(item => item.Name == name);
     }
+     */
 }
 
 [System.Serializable]
