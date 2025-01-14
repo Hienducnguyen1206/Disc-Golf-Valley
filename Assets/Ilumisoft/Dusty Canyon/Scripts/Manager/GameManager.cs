@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using Unity.VisualScripting;
 using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -51,6 +52,21 @@ public class GameManager : Singleton<GameManager>
         GUIManager.Ins.OpenUI<CanvasWelcome>();
     }
 
+    public void UpdateBestScore(int score)
+    {
+        int currentBestScore = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("BestScore")
+            ? (int)PhotonNetwork.LocalPlayer.CustomProperties["BestScore"]
+            : 0;
+
+        if (score > currentBestScore)
+        {
+            Hashtable newProperties = new Hashtable { { "BestScore", score } };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(newProperties);
+
+            Debug.Log("Updated Best Score to: " + score);
+        }
+    }
+
     private void LateUpdate()
     {
         if (GameManager.Ins.IsState(GameState.Playing) && zeusTransform != null)
@@ -74,45 +90,35 @@ public class GameManager : Singleton<GameManager>
                 if (currentDistance > totalDistance)
                 {
                     Score = 0;
-                    if (PlayerPrefs.HasKey("Score")) 
-                    {
-                        if (int.Parse(PlayerPrefs.GetString("Score")) < Score)
-                        {
-                            PlayerPrefs.SetString("Score", Score.ToString());
-                            PlayerPrefs.Save();
-                        }
-                    }
-                    else 
-                    {
-                        PlayerPrefs.SetString("Score", Score.ToString());
-                        PlayerPrefs.Save();
-                    }
+                    PlayerPrefs.SetString("Score", Score.ToString());
+                    PlayerPrefs.Save();
                 }
                 else
                 {
                     Score = Mathf.RoundToInt(Mathf.Clamp01((totalDistance - currentDistance) / totalDistance) * 99);
 
-                    if (Score >= 95 && !isHistorySaved)
-                    {   
+                    if (Score >= 90 && !isHistorySaved)
+                    {
                         isHistorySaved = true;
                         Debug.Log("Wingame");
                         isWinner = true;
                         SaveHistory();
                     }
 
-                    if (PlayerPrefs.HasKey("Score")) 
-                    {
-                        if (int.Parse(PlayerPrefs.GetString("Score")) < Score)
-                        {
-                            PlayerPrefs.SetString("Score", Score.ToString());
-                            PlayerPrefs.Save();
-                        }
-                    }
-                    else 
-                    {
-                        PlayerPrefs.SetString("Score", Score.ToString());
-                        PlayerPrefs.Save();
-                    }
+                    PlayerPrefs.SetString("Score", Score.ToString());
+                    PlayerPrefs.Save();
+                }
+
+                UpdateBestScore(Score);
+
+                foreach (var player in PhotonNetwork.PlayerList)
+                {
+                    string playerName = player.NickName;
+                    int bestScore = player.CustomProperties.ContainsKey("BestScore")
+                        ? (int)player.CustomProperties["BestScore"]
+                        : 0;
+
+                    Debug.Log($"Player: {playerName}, Best Score: {bestScore}");
                 }
 
                 GUIManager.Ins.OpenUI<CanvasScore>();
@@ -125,7 +131,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
-       
+
     }
 
 
@@ -133,7 +139,7 @@ public class GameManager : Singleton<GameManager>
     public void SaveHistory()
     {
         string roomName = PhotonNetwork.CurrentRoom?.Name ?? "UnknownRoom";
-        FirebaseAuthManager.instance.CurrentPlayerData.AddHistory( new GameHistory(roomName, Score, isWinner));
+        FirebaseAuthManager.instance.CurrentPlayerData.AddHistory(new GameHistory(roomName, Score, isWinner));
         FirebaseAuthManager.instance.SavePlayerData(FirebaseAuthManager.instance.auth.CurrentUser.UserId);
     }
 
@@ -183,6 +189,7 @@ public class GameManager : Singleton<GameManager>
         this.AccountName = name;
     }
 
+
     /*
     public void AddItem(ItemData item)
     {
@@ -229,6 +236,8 @@ public class GameManager : Singleton<GameManager>
         return itemList.FindAll(item => item.Name == name);
     }
      */
+
+
 }
 
 [System.Serializable]

@@ -49,6 +49,7 @@ public struct GameHistory
     public string RoomName;
     public int Score;
     public bool IsWinner;
+    public string Timestamp;
 
 
    
@@ -58,5 +59,6 @@ public struct GameHistory
         RoomName = roomName;
         Score = score;
         IsWinner = isWinner;
+        Timestamp = System.DateTime.Now.ToString();
     }
 }
