@@ -189,7 +189,6 @@ public class GameManager : Singleton<GameManager>
         this.AccountName = name;
     }
 
-
     /*
     public void AddItem(ItemData item)
     {
@@ -236,7 +235,6 @@ public class GameManager : Singleton<GameManager>
         return itemList.FindAll(item => item.Name == name);
     }
      */
-
 
 }
 
