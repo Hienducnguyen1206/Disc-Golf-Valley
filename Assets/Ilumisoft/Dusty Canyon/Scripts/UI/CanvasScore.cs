@@ -26,11 +26,11 @@ public class CanvasScore : UICanvas
         if (PlayerPrefs.HasKey("Score"))
         {
             scoreText.text = PlayerPrefs.GetString("Score");
-            if (int.Parse(PlayerPrefs.GetString("Score")) >= 95)
+            if (int.Parse(PlayerPrefs.GetString("Score")) >= 90)
             {
                 winloseText.text = "You Win!";
             }
-            else if (int.Parse(PlayerPrefs.GetString("Score")) < 95)
+            else if (int.Parse(PlayerPrefs.GetString("Score")) < 90)
             {
                 winloseText.text = "You Lose!";
             }

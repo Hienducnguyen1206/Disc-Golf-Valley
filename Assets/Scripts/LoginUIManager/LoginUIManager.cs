@@ -107,7 +107,7 @@ public class LoginUIManager : MonoBehaviour
         
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            // Thoát game khi build
+            // Thoï¿½t game khi build
             Application.Quit();
 #endif
     }
