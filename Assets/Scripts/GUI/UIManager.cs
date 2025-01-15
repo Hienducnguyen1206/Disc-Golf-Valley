@@ -10,14 +10,25 @@ public class UIManager : MonoBehaviour
 
     public Slider offSetSlider;
     public Slider angleXSlider;
+    public Slider angleYSlider;
     public Slider angleZSlider;
     public Slider powerSlider;
     public Button throwBtn;
     public FixedJoystick fixedJoystick;
     [SerializeField] TextMeshProUGUI offSetText;
     [SerializeField] TextMeshProUGUI angleXText;
+    [SerializeField] TextMeshProUGUI angleYText;
     [SerializeField] TextMeshProUGUI angleZText;
     [SerializeField] TextMeshProUGUI powerText;
+
+
+    public GameObject winGameMenu;
+    public GameObject loseGameMenu;
+    public GameObject ingameMenu;
+    public GameObject ControlPanel;
+
+
+
 
 
     private void Awake()
@@ -36,6 +47,7 @@ public class UIManager : MonoBehaviour
     {
         offSetText.text = offSetSlider.value.ToString();
         angleXText.text = angleXSlider.value.ToString();
+        angleYText.text = angleYSlider.value.ToString();
         angleZText.text = angleZSlider.value.ToString();
         powerText.text = powerSlider.value.ToString();
     }

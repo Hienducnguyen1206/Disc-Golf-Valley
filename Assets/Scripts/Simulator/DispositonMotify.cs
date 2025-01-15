@@ -7,22 +7,33 @@ using DG.Tweening;
 public class DispositionModify : MonoBehaviour
 {
     
-    private Vector3 initialPosition; 
-    private float initialAngleX;     
-    private float initialAngleZ;     
+    public Vector3 initialPosition; 
+    public float initialAngleX;
+    public float initialAngleY;
+    public float initialAngleZ;     
     private Tween moveTween;         
-    private Tween rotateTween;      
+    private Tween rotateTween;
+
+    public static DispositionModify instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
-       
-        initialPosition = transform.position;
+        
+        initialPosition = GameSystem.instance.StartPosition;
         initialAngleX = transform.eulerAngles.x;
+        initialAngleZ = transform.eulerAngles.y;
         initialAngleZ = transform.eulerAngles.z;
 
       
         UIManager.Instance.offSetSlider.onValueChanged.AddListener(OnOffsetSliderChanged);
+
         UIManager.Instance.angleXSlider.onValueChanged.AddListener(OnAngleXSliderChanged);
+        UIManager.Instance.angleYSlider.onValueChanged.AddListener(OnAngleYSliderChanged);
         UIManager.Instance.angleZSlider.onValueChanged.AddListener(OnAngleZSliderChanged);
     }
 
@@ -55,6 +66,25 @@ public class DispositionModify : MonoBehaviour
         rotateTween = transform.DORotate(
             new Vector3(targetAngleX, transform.eulerAngles.y, transform.eulerAngles.z),
             0.5f 
+        ).SetEase(Ease.OutQuad);
+    }
+
+
+
+    private void OnAngleYSliderChanged(float value)
+    {
+        float targetAngleY = initialAngleY + value;
+
+
+        if (rotateTween != null && rotateTween.IsActive())
+        {
+            rotateTween.Kill();
+        }
+
+
+        rotateTween = transform.DORotate(
+            new Vector3(transform.eulerAngles.x, targetAngleY, transform.eulerAngles.z),
+            0.5f
         ).SetEase(Ease.OutQuad);
     }
 

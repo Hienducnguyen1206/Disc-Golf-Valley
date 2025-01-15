@@ -21,6 +21,12 @@ public class RoomListManager : MonoBehaviourPunCallbacks
     {
         base.OnRoomListUpdate(roomList);
 
+        foreach (Transform child in roomContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+
         for (int i = 0; i < roomList.Count; i++)
         {
             if (roomList[i].IsOpen && roomList[i].IsVisible && roomList[i].PlayerCount >= 1)
@@ -31,9 +37,9 @@ public class RoomListManager : MonoBehaviourPunCallbacks
                 string roomName = roomList[i].Name; 
                 room.GetComponent<Button>().onClick.AddListener(() =>
                 {
-                    Debug.Log("Join room " + roomName);  
+
                     GamePhotonNetwork.instance.JoinRoomByName(roomName);
-                    Debug.Log("Joined room " + roomName);
+
                 });
             }
         }

@@ -393,10 +393,7 @@ public class FirebaseAuthManager : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
-    {
-        SignOut();
-    }
+   
 
     public void SignOut()
     {
@@ -405,6 +402,7 @@ public class FirebaseAuthManager : MonoBehaviour
            
             auth.SignOut();
 
+            CurrentPlayerData = new PlayerData();
           
             SceneManager.LoadScene("Login");
 

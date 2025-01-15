@@ -74,7 +74,7 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
         RecyclableScrollerDemo recyclableScroller = FindObjectOfType<RecyclableScrollerDemo>();
         recyclableScroller?.UpdateContactList();
 
-        PhotonNetwork.LoadLevel("PlayGameScene");
+        PhotonNetwork.LoadLevel("Ingame");
     }
 
     public void JoinRoomByName(string roomName)
@@ -110,7 +110,7 @@ public class GamePhotonNetwork : MonoBehaviourPunCallbacks
     {
         base.OnCreatedRoom();
         Debug.Log("Create room success");
-        PhotonNetwork.LoadLevel("PlayGameScene");
+        PhotonNetwork.LoadLevel("Ingame");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

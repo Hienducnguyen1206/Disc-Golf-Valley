@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinemachine;
+using System;
 
 using UnityEngine;
 
@@ -35,6 +36,10 @@ public class DiscFlySimulator : MonoBehaviour
 
 
     private bool isThrowing = false;
+
+     public CinemachineVirtualCamera virtualCamera;
+     public Camera cam;
+
 
     private void Tourque()
     {
@@ -88,7 +93,7 @@ public class DiscFlySimulator : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isThrowing)
+        if (isThrowing && DiscBehavior.instance.isFlying)
         {
             Gravity();
             Lift();
@@ -100,11 +105,22 @@ public class DiscFlySimulator : MonoBehaviour
     }
 
     public void Throw()
-    {
+    {   
+        virtualCamera.gameObject.transform.rotation = cam.transform.rotation;
+        virtualCamera.gameObject.SetActive(true);
+
+
+        UIManager.Instance.ControlPanel.gameObject.SetActive(false);
+
+
         isThrowing = true;
+        DiscBehavior.instance.isFlying = true;
         _alpha = Vector3.Angle(_rb.velocity, transform.forward);
         _rb.AddForce(transform.forward * _force * discStats.SPEED / 2f, ForceMode.Impulse);
         _rb.AddTorque(transform.up * 80f, ForceMode.Impulse);
+
+
+
     }
    
 
